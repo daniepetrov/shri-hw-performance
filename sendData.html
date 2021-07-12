@@ -46,18 +46,6 @@
       <div class="square"></div>
     </main>
 
-    <script>
-      (function () {
-        var script = document.createElement('script');
-        script.src = 'https://unpkg.com/web-vitals/dist/web-vitals.iife.js';
-        script.onload = function () {
-          webVitals.getTTFB((ttfb) => counter.send('TTFB', ttfb.value));
-          webVitals.getFCP((fcp) => counter.send('FCP', fcp.value));
-          webVitals.getFID((fid) => counter.send('FID', fid.value));
-        };
-        document.head.appendChild(script);
-      })();
-    </script>
     <script src="counter.js"></script>
     <script>
       let deviceType = window.matchMedia('(max-width: 768px)').matches ? 'touch' : 'desktop';
@@ -76,6 +64,18 @@
         env: randomEnv,
         platform: deviceType,
       });
+    </script>
+    <script>
+      (function () {
+        var script = document.createElement('script');
+        script.src = 'https://unpkg.com/web-vitals/dist/web-vitals.iife.js';
+        script.onload = function () {
+          webVitals.getTTFB((ttfb) => counter.send('TTFB', ttfb.value));
+          webVitals.getFCP((fcp) => counter.send('FCP', fcp.value));
+          webVitals.getFID((fid) => counter.send('FID', fid.value));
+        };
+        document.head.appendChild(script);
+      })();
     </script>
   </body>
 </html>
