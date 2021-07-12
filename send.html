@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Send metrics exampple</title>
+    <style type="text/css">
+      main {
+        position: relative;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      .square {
+        width: 100px;
+        height: 100px;
+
+        transform: translateX(-50%) translateY(-50%);
+        animation: rotate 2s ease infinite;
+
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        background-color: red;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      div.white {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Страница отправки метрик</h1>
+      <img src="./image.jpg" alt="" />
+      <div class="square"></div>
+    </main>
+
+    <script>
+      (function () {
+        var script = document.createElement('script');
+        script.src = 'https://unpkg.com/web-vitals/dist/web-vitals.iife.js';
+        script.onload = function () {
+          webVitals.getTTFB((ttfb) => counter.send('TTFB', ttfb.value));
+          webVitals.getFCP((fcp) => counter.send('FCP', fcp.value));
+          webVitals.getFID((fid) => counter.send('FID', fid.value));
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
+    <script src="counter.js"></script>
+    <script>
+      let deviceType = window.matchMedia('(max-width: 768px)').matches ? 'touch' : 'desktop';
+
+      let counter = new Counter();
+
+      counter.init(
+        '4BD58C49-CEE0-4B85-A7E1-C7FCCEA9C87A',
+        String(Math.random()).substr(2, 12),
+        'send test',
+      );
+
+      const envs = ['development', 'testing', 'production'];
+      var randomEnv = envs[Math.floor(Math.random() * envs.length)];
+      counter.setAdditionalParams({
+        env: randomEnv,
+        platform: deviceType,
+      });
+    </script>
+  </body>
+</html>
